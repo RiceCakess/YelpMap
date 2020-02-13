@@ -13,6 +13,7 @@ app.set('json spaces', 2); //prettify
 
 app.use('/api', router);
 router.use('/search',require("./search"));
+router.use('/history', require("./history"));
 
 app.use(function(err, req, res, next) {
     console.log(err.stack);

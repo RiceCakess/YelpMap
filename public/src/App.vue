@@ -1,60 +1,50 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
     <v-content>
-      <HelloWorld/>
+      <v-container fluid class="fill-height">
+        <v-row class="fill-height">
+          <v-col cols="6">
+            <Query :history="history"></Query>
+          </v-col>
+          <v-col cols="6" style="padding: 0px; ">
+            <Maps :history="history"></Maps>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+/* eslint-disable no-unused-vars */
+import Maps from './components/Maps.vue';
+import Query from './components/Query.vue';
+const axios = require('axios').default;
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    "Maps": Maps,
+    "Query": Query,
   },
 
   data: () => ({
-    //
+      history: [],
   }),
+  methods: {
+        getHistory: function() {
+          let vm = this;
+          axios.get('http://10.0.0.23:3001/api/history'
+          ).then((res => {
+              console.log(res);
+              vm.history = res.data;
+          })).catch(err => {
+              console.log(err);
+          });
+      },
+  },
+  mounted: function () {
+      this.getHistory();
+  },
 };
 </script>
