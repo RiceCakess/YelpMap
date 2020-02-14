@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 app.set('json spaces', 2); //prettify
 
 app.use('/api', router);
-router.use('/search',require("./search"));
 router.use('/history', require("./history"));
 router.use('/download', require("./download"));
 app.use('/files',express.static('generatedFiles'));
