@@ -6,7 +6,7 @@ import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
-const globalConfig = require("./config");
+const globalConfig = require("../config");
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);

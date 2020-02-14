@@ -2,7 +2,7 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     cors = require("cors");
 
-var API_PORT = process.env.PORT || 3001;
+var API_PORT = process.env.PORT || 8888;
 var app = express();
 const router = express.Router();
 
@@ -14,7 +14,8 @@ app.set('json spaces', 2); //prettify
 app.use('/api', router);
 router.use('/search',require("./search"));
 router.use('/history', require("./history"));
-
+router.use('/download', require("./download"));
+app.use('/files',express.static('generatedFiles'));
 app.use(function(err, req, res, next) {
     console.log(err.stack);
 

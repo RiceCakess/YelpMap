@@ -1,17 +1,18 @@
 var router = require('express').Router();
+var mysql = require('mysql');
+const config = require('./config');
+var conn = mysql.createConnection(config.mysql);
+conn.connect((err) =>{
+    if(err){
+        console.log(err);
+        return;
+    }
+});
 router.get("/", (req,res,next)=>{
-    res.json([
-      {
-        "coordinates": {lat:37.7598202, lng:-122.4522538},
-        "radius": 1500,
-        "id": 1
-      },
-      {
-        "coordinates": {lat:37.78651448379856, lng: -122.41024045754449},
-        "radius": 1800,
-        "id": 2
-      }
-    ]);
+    conn.query("SELECT * FROM yelpmap ORDER BY timestamp DESC LIMIT 10", (error, results, fields)=>{
+      if(error) next(error);
+      res.json(results);
+    });
   });
 
 module.exports = router;

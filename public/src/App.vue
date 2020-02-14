@@ -4,10 +4,10 @@
       <v-container fluid class="fill-height">
         <v-row class="fill-height">
           <v-col cols="6">
-            <Query :history="history"></Query>
+            <Query :history="history" :circleCenter="circleCenter" :circleRadius="circleRadius" :refreshHistory="refreshHistory"></Query>
           </v-col>
           <v-col cols="6" style="padding: 0px; ">
-            <Maps :history="history"></Maps>
+            <Maps :history="history" :updateCircle="updateCircle" ></Maps>
           </v-col>
         </v-row>
       </v-container>
@@ -30,21 +30,37 @@ export default {
 
   data: () => ({
       history: [],
+      circleCenter: {lat:37.7598202, lng:-122.4522538},
+      circleRadius: 2500,
   }),
   methods: {
-        getHistory: function() {
+      refreshHistory: function() {
           let vm = this;
-          axios.get('http://10.0.0.23:3001/api/history'
+          console.log("history refreshed");
+          axios.get('https://dchen.xyz/api/history'
           ).then((res => {
-              console.log(res);
+              //console.log(res);
+              res.data.map(x => { x.query = JSON.parse(x.query); });
               vm.history = res.data;
           })).catch(err => {
               console.log(err);
           });
       },
+      loop: function(){
+        let vm = this;
+        setTimeout(function(){
+            vm.refreshHistory();
+            vm.loop();
+        }, 1000*30);
+      },
+      updateCircle: function(loc, rad){
+        this.circleCenter = loc;
+        this.circleRadius = rad;
+      }
   },
   mounted: function () {
-      this.getHistory();
+      this.refreshHistory();
+      this.loop();
   },
 };
 </script>
