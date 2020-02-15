@@ -68,6 +68,7 @@
 <script>
     const axios = require('axios').default;
     import { saveAs } from 'file-saver';
+    const config = require('../../config');
     export default {
         name: 'Query',
         props:['history', 'circleCenter', 'circleRadius', 'refreshHistory'],
@@ -78,7 +79,7 @@
         methods: {
             query() {
                 let vm = this;
-                axios.get('https://dchen.xyz/api/download',{
+                axios.get(config.APP_API_URL + '/download',{
                     params:{
                         latitude: this.circleCenter.lat,
                         longitude: this.circleCenter.lng,
@@ -98,7 +99,7 @@
                     return;
                 }
                 console.log(name);
-                saveAs('https://dchen.xyz/static/' + name,name);
+                saveAs('/static/' + name,name);
             },
             customFilter (item, queryText) {
                 const textOne = item.title.toLowerCase()

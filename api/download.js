@@ -7,16 +7,9 @@ const fs = require('fs');
 const config = require("./config");
 
 var mysql = require('mysql');
-var conn = mysql.createConnection(config.mysql);
 
-/*YelpSearch({
-    loc: {
-        lat:37.7598202, 
-        lng:-122.4522538
-    },
-    rad: 1500
-});*/
 router.get('/', async (req, res) => {
+    conn = mysql.createConnection(config.mysql);
     conn.connect((err) =>{
         if(err){
             next(e);
@@ -27,17 +20,17 @@ router.get('/', async (req, res) => {
     if(typeof loc === undefined || typeof rad === undefined)
         res.status(400).json({error: "missing coordinates or radius"});
     try{
-        YelpSearch({
+        await YelpSearch({
             "latitude": latitude,
             "longitude": longitude,
             "radius": radius,
             "categories": categories
-        });
+        },conn);
     }
     catch(e){
         next(e);
     }
-    connection.end();
+    await close(conn);
     res.json({status: "complete"});
 });
 async function YelpSearch(query) {
@@ -138,6 +131,17 @@ function queryDB(sql, values){
                 reject(error);
             else
                 resolve(results);
+        });
+    });
+}
+
+function close(conn){
+    return new Promise((resolve, reject)=>{
+        conn.end((err)=>{
+            if(err)
+                reject(err);
+            else
+                resolve();
         });
     });
 }

@@ -20,6 +20,7 @@
 import Maps from './components/Maps.vue';
 import Query from './components/Query.vue';
 const axios = require('axios').default;
+const config = require('../config');
 export default {
   name: 'App',
 
@@ -37,7 +38,7 @@ export default {
       refreshHistory: function() {
           let vm = this;
           console.log("history refreshed");
-          axios.get('https://dchen.xyz/api/history'
+          axios.get(config.APP_API_URL + '/history'
           ).then((res => {
               //console.log(res);
               res.data.map(x => { x.query = JSON.parse(x.query); });
