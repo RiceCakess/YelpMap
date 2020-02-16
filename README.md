@@ -1,7 +1,12 @@
 # YelpMap
+---
+Search Yelp interactively and export results to CSV
+
+![Image of App](https://raw.githubusercontent.com/RiceCakess/YelpMap/master/yelpmap.png)
 
 
 ### First Time Setup for Linux
+---
 Clone the repository to your home directory
 ```
 git clone git@github.com:RiceCakess/YelpMap.git
@@ -33,3 +38,8 @@ Run backend api
 cd ~/YelpMap/api
 npm run start
 ```
+
+### TODO
+---
+* Add more fitlers
+* Result Caching
