@@ -53,7 +53,7 @@ async function YelpSearch(query) {
                 radius: query.radius,
                 categories:  query.categories,
                 limit: 50,
-                offset: 0,
+                offset: currentOffset,
                 sort_by: "review_count"
             };
             await axios.get(yelp_api, {
