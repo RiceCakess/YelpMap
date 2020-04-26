@@ -30,7 +30,7 @@ Build production copy of Vue and move to public web directory
 ```
 cd ~/YelpMap/web
 npm run build
-cp dist/* /var/www/
+cp dist/* /var/www/html
 ```
 
 Run backend api
